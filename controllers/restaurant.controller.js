@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler")
 const { restaurantUpload, menuUpload, updateMenuUpload } = require("../utils/upload")
 const validator = require("validator")
-const { checkEmpty } = require("../utils/checkEmplty")
+const { checkEmpty } = require("../utils/checkEmpty")
 const cloud = require("../utils/cloudinary")
 const Restaurant = require("../models/Restaurant")
 const Menu = require("../models/Menu")
