@@ -127,7 +127,8 @@ exports.loginRestaurant = asyncHandler(async (req, res) => {
     res.cookie("restaurant", token, {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
     })
 
     res.json({
