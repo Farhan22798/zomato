@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 
 exports.restaurantProtected = asyncHandler(async (req, res, next) => {
     console.log("cookies:",req.cookies)
-    const token = req.cookies.restaurant
+    const token = req.cookies?.restaurant
     if (!token) {
         return res.status(401).json({ message: "no cookie found" })
     }
