@@ -122,3 +122,11 @@ exports.updateMenu = asyncHandler(async (req, res) => {
 //menu crud
 
 
+
+
+exports.getRestaurants = asyncHandler(async (req, res) => {
+    const result = await Restaurant.find()
+    res.json({ message: "restaurant fetch success", result })
+})
+
+
