@@ -15,7 +15,7 @@ app.use(cors({
 }))
 
 app.use("/api/auth", require("./routes/auth.routes"))
-app.use("/api/restaurant", restaurantProtected, require("./routes/restaurant.route"))
+app.use("/api/restaurant", require("./routes/restaurant.route"))
 app.use("/api/customer", customerProtected, require("./routes/customer.routes"))
 app.use("*", (req, res) => {
     res.status(404).json({ message: "resource not found" })
