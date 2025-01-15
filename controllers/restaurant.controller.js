@@ -125,8 +125,15 @@ exports.updateMenu = asyncHandler(async (req, res) => {
 
 
 exports.getRestaurants = asyncHandler(async (req, res) => {
-    const result = await Restaurant.find()
+    const result = await Restaurant
+    .find()
+   // .select(("-password -createdAt -updatedAt -__v -certificate -infoComplete -isActive"))
     res.json({ message: "restaurant fetch success", result })
+})
+
+exports.getRestaurantMenu = asyncHandler(async (req, res) => {
+    const result = await Menu.find({ restaurant: req.params.rid })
+    res.json({ message: "restaurant menu fetch success", result })
 })
 
 
