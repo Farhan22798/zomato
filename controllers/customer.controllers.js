@@ -4,10 +4,11 @@ const { checkEmpty } = require("../utils/checkEmpty")
 const Customer = require("../models/Customer")
 const Restaurant = require("../models/Restaurant")
 const Menu = require("../models/Menu")
+const Order = require("../models/Order")
 
 exports.getLocation = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.body
-    
+
     const { isError, error } = checkEmpty({ latitude, longitude })
     if (isError) {
         return res.status(400).json({ message: "all fields required", error })
@@ -49,12 +50,34 @@ exports.updateCustomerInfo = asyncHandler(async (req, res) => {
 
 exports.getRestaurants = asyncHandler(async (req, res) => {
     const result = await Restaurant
-    .find()
-    .select(("-password -createdAt -updatedAt -__v -certificate -infoComplete -isActive"))
+        .find({ isActive: true })
+        .select(("-password -createdAt -updatedAt -__v -certificate -infoComplete -isActive"))
     res.json({ message: "restaurant fetch success", result })
 })
 
 exports.getRestaurantMenu = asyncHandler(async (req, res) => {
-    const result = await Menu.find({ restaurant: req.params.rid })  .select((" -createdAt -updatedAt -__v"))
-    res.json({ message: "restaurant menu fetch success", result })
+    const result = await Menu.find({ restaurant: req.params.rid }).select((" -createdAt -updatedAt -__v"))
+    res.json({ message: "restaurant menu fetch success" })
 })
+
+
+exports.placeOrder = asyncHandler(async (req, res) => {
+    const { restaurant, items } = req.body
+    const { isError, error } = checkEmpty({ restaurant, items })
+    if (isError) {
+        return res.status(400).json({ message: "all fields required", error })
+    }
+    await Order.create({ restaurant, items, customer: req.user })
+    res.json({ message: "order placed" })
+})
+
+
+exports.getOrders = asyncHandler(async (req, res) => {
+
+    const result = await Order
+        .find({ customer: req.user }).select("-customer -createdAt -updatedAt -__v")
+        .populate("restaurant","restaurantName hero")
+        .populate("items.dish","name type image")
+    res.json({ message: "order fetch success", result })
+})
+
