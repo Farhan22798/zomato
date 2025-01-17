@@ -57,7 +57,7 @@ exports.getRestaurants = asyncHandler(async (req, res) => {
 
 exports.getRestaurantMenu = asyncHandler(async (req, res) => {
     const result = await Menu.find({ restaurant: req.params.rid }).select((" -createdAt -updatedAt -__v"))
-    res.json({ message: "restaurant menu fetch success" })
+    res.json({ message: "restaurant menu fetch success",result })
 })
 
 

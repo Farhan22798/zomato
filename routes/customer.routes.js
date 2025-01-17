@@ -5,10 +5,10 @@ const router = require("express").Router()
 router
     .post("/get-location", getLocation)
     .post("/update-info", updateCustomerInfo)
+    .get("/get-restaurants",getRestaurants)
+    .get("/get-restaurant-menu/:rid",getRestaurantMenu)
     .post("/place-order", placeOrder)
     .get("/fetch-orders", getOrders)
-    .get("/get-restaurants",getRestaurants)
-.get("/get-restaurant-menu/:rid",getRestaurantMenu)
 
 
 

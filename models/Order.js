@@ -1,8 +1,17 @@
 const mongoose = require("mongoose")
 
 const orderSchema = new mongoose.Schema({
-    customer: { type: mongoose.Types.ObjectId, ref: "customer", required: true },
-    restaurant: { type: mongoose.Types.ObjectId, ref: "restaurant", required: true },
+    customer:
+     { 
+        type: mongoose.Types.ObjectId, 
+        ref: "customer", 
+        required: true 
+    },
+    restaurant: {
+         type: mongoose.Types.ObjectId,
+          ref: "restaurant", 
+          required: true
+         },
     items: [
         {
             dish: { type: mongoose.Types.ObjectId, ref: "menu", required: true },
@@ -11,8 +20,15 @@ const orderSchema = new mongoose.Schema({
     ],
     
     
-    rider:   {type: mongoose.Types.ObjectId, ref: "rider"},
-    status:   {type:String,default:"placed", enum:["placed","cooking","packing","out","delivered"]},
+    rider:   {
+        type: mongoose.Types.ObjectId,
+         ref: "rider"
+        },
+    status:   {
+        type:String,
+        default:"placed",
+         enum:["placed","cooking","packing","out","delivered"]
+        },
 
   
 }, { timestamps: true })
