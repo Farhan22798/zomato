@@ -9,6 +9,7 @@ const { differenceInSeconds } = require("date-fns")
 const { sendSMS } = require("../utils/sms")
 const Restaurant = require("../models/Restaurant")
 const Customer = require("../models/Customer")
+const Rider = require("../models/Rider")
 
 exports.registerAdmin = asyncHandler(async (req, res) => {
     const { name, email, mobile } = req.body
@@ -231,4 +232,46 @@ exports.verifyCustomerOTP = asyncHandler(async (req, res) => {
 exports.logoutCustomer = asyncHandler(async (req, res) => {
     res.clearCookie("zomato-customer")
     res.json({ message: "logout success" })
+})
+
+exports.loginRider = asyncHandler(async (req, res) => {
+    const { userName, password } = req.body
+
+    const result = await Rider.findOne({ $or: [{ email: username }, { mobile: username }] })
+
+    if (!result) {
+        return res.status(400).json({ message: "invalid credentials" })
+    }
+
+    const isVerify = await bcrypt.compare(password, result.password)
+
+    if (!isVerify) {
+        return res.status(401).json({ message: "invalid credentials pwd" })
+
+    }
+
+    const token = jwt.sign({ _id: result._id }, process.env.JWT_KEY, { expiresIn: "365d" })
+
+    res.cookie("zomato-rider", token, {
+        maxAge: 1000 * 60 * 60 * 24*365,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production"
+       
+    })
+
+    res.json({
+        message: "rider login success", result: {
+            _id: result._id,
+            name: result.name,
+            email: result.email,
+        }
+    })
+  
+
+
+})
+
+exports.logoutRider = asyncHandler(async (req, res) => {
+    res.clearCookie("zomato-rider")
+    res.json({ message: "rider logout success" })
 })
