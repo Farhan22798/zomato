@@ -8,6 +8,7 @@ exports.getRiderOrders = asyncHandler(async (req, res) => {
         .select(("-rider -createdAt -updatedAt -__v "))
         .populate("restaurant", "restaurantName hero") //joins
         .populate("items.dish", "name type image price") //joins
+        .populate("customer", "name address mobile") //joins
         .sort({createdAt:-1})
     res.json({ message: "order fetch success", result })
 })
