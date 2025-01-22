@@ -6,11 +6,17 @@ exports.getRiderOrders = asyncHandler(async (req, res) => {
     const result = await Order
         .find({ rider: req.user })
         .select(("-rider -createdAt -updatedAt -__v "))
-        .populate("restaurant", "restaurantName hero") //joins
+        .populate("restaurant", "restaurantName address hero mobile") //joins
         .populate("items.dish", "name type image price") //joins
         .populate("customer", "name address mobile") //joins
-        .sort({createdAt:-1})
+        .sort({ createdAt: -1 })
     res.json({ message: "order fetch success", result })
+})
+
+exports.updateOrderStatus = asyncHandler(async (req, res) => {
+    const { oid } = req.params
+    await Order.findByIdAndUpdate(oid, { status: req.body.status })
+    res.json({ message: "order status update success" })
 })
 
 
