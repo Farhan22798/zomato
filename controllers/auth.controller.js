@@ -129,7 +129,7 @@ exports.loginRestaurant = asyncHandler(async (req, res) => {
         maxAge: 1000 * 60 * 60 * 24,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production"
-       
+
     })
 
     res.json({
@@ -253,10 +253,10 @@ exports.loginRider = asyncHandler(async (req, res) => {
     const token = jwt.sign({ _id: result._id }, process.env.JWT_KEY, { expiresIn: "365d" })
 
     res.cookie("zomato-rider", token, {
-        maxAge: 1000 * 60 * 60 * 24*365,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production"
-       
+
     })
 
     res.json({
@@ -266,7 +266,7 @@ exports.loginRider = asyncHandler(async (req, res) => {
             email: result.email,
         }
     })
-  
+
 
 
 })
