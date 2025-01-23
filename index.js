@@ -6,9 +6,12 @@ const cookieParser = require("cookie-parser")
 const { restaurantProtected, customerProtected, adminProtected, riderProtected } = require("./midllewares/protected")
 const { app, httpServer } = require("./socket/socket")
 // const app = express()
+const path = require("path")
+
 
 app.use(express.json()) // req.body
 app.use(cookieParser()) // req.cookies
+app.use(express.static("dist")) // req.body
 app.use(cors({
     origin: true,
     credentials: true // cookie
@@ -20,7 +23,8 @@ app.use("/api/customer", customerProtected, require("./routes/customer.routes"))
 app.use("/api/admin", adminProtected, require("./routes/admin.routes"))
 app.use("/api/rider", riderProtected, require("./routes/rider.routes"))
 app.use("*", (req, res) => {
-    res.status(404).json({ message: "resource not found" })
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
+    //  res.status(404).json({ message: "resource not found" })
 })
 app.use((err, req, res, next) => {
     console.log(err)
