@@ -5,6 +5,7 @@ const Customer = require("../models/Customer")
 const Restaurant = require("../models/Restaurant")
 const Menu = require("../models/Menu")
 const Order = require("../models/Order")
+const { io } = require("../socket/socket")
 
 exports.getLocation = asyncHandler(async (req, res) => {
     const { latitude, longitude } = req.body
@@ -68,6 +69,7 @@ exports.placeOrder = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "all fields required", error })
     }
     await Order.create({ restaurant, items, customer: req.user })
+    io.emit("customer-orders")
     res.json({ message: "order placed" })
 })
 
