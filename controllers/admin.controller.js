@@ -159,14 +159,7 @@ exports.getAdminActiveRiders = asyncHandler(async (req, res) => {
 exports.assignRider = asyncHandler(async (req, res) => {
     const { oid } = req.params
     await Order.findByIdAndUpdate(oid, { rider: req.body.rider })
-    
-    const result=await Order.find( { rider: req.body.rider })
-    .select(("-rider -createdAt -updatedAt -__v "))
-    .populate("restaurant", "restaurantName address hero mobile") //joins
-    .populate("items.dish", "name type image price") //joins
-    .populate("customer", "name address mobile") //joins
-    .sort({ createdAt: -1 })
-    io.emit("rider-orders",result)
+    io.emit("rider-orders")
     res.json({
         message: "rider assign success"
     })
