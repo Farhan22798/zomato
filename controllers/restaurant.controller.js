@@ -130,6 +130,7 @@ exports.getRestaurantOrders = asyncHandler(async (req, res) => {
         .find({ restaurant: req.user })
         .select("-restaurant -createdAt -updatedAt -__v")
         .populate("customer","name address")
+        .populate("rider","name mobile")
         .populate("items.dish","name type image price")
         .sort({createdAt : -1})
     res.json({ message: "order fetch success", result })
