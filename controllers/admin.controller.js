@@ -140,6 +140,7 @@ exports.updateAdminRider = asyncHandler(async (req, res) => {
 
 exports.updateRiderAccount = asyncHandler(async (req, res) => {
     const { rid } = req.params
+    io.emit("rider-account")
     await Rider.findByIdAndUpdate(rid, { isActive: req.body.isActive })
     res.json({ message: "rider account update" })
 })
