@@ -10,7 +10,7 @@ const customerSchema = new mongoose.Schema({
     gender: { type: String, enum: ["male", "female"],  },
     otp: { type: String },
     otpSendOn: { type: Date },
-    isActive: { type: Boolean, default: false,  },
+    isActive: { type: Boolean, default: true },
     infoComplete: { type: Boolean, default: false },
 
 }, { timestamps: true })

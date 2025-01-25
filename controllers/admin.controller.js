@@ -27,6 +27,14 @@ exports.getCustomersForAdmin = asyncHandler(async (req, res) => {
     res.json({ message: "customer fetch success", result })
 })
 
+exports.updateCustomerAccount = asyncHandler(async (req, res) => {
+    const { cid } = req.params
+    io.emit("customer-account")
+    await Customer.findByIdAndUpdate(cid, { isActive: req.body.isActive })
+    res.json({ message: "customer account update" })
+})
+
+
 exports.getOrdersforAdmin = asyncHandler(async (req, res) => {
     const { limit, skip } = req.query
     const total = await Order.countDocuments()

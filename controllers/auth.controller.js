@@ -175,6 +175,10 @@ exports.loginCustomer = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "invalid credentials" })
     }
 
+    if (!result.isActive) {
+        return res.status(401).json({ message: "Account is blocked by Admin" })
+    }
+
     //send OTP 
     const otp = generateOTP()
 
@@ -248,6 +252,9 @@ exports.loginRider = asyncHandler(async (req, res) => {
     if (!isVerify) {
         return res.status(401).json({ message: "invalid credentials pwd" })
 
+    }
+    if (!result.isActive) {
+        return res.status(401).json({ message: "Account is blocked by Admin" })
     }
 
     const token = jwt.sign({ _id: result._id }, process.env.JWT_KEY, { expiresIn: "365d" })

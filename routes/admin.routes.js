@@ -1,4 +1,4 @@
-const { getRestaurantsForAdmin, getCustomersForAdmin, getOrdersforAdmin, registerAdminRider, getAdminRider, updateAdminRider, updateRiderAccount, getAdminActiveRiders, assignRider } = require("../controllers/admin.controller")
+const { getRestaurantsForAdmin, getCustomersForAdmin, getOrdersforAdmin, registerAdminRider, getAdminRider, updateAdminRider, updateRiderAccount, getAdminActiveRiders, assignRider, updateCustomerAccount } = require("../controllers/admin.controller")
 
 const router = require("express").Router()
 
@@ -12,5 +12,6 @@ router
     .get("/get-active-riders",getAdminActiveRiders)
     .put("/update-rider/:rid",updateAdminRider)
     .put("/update-rider-account/:rid",updateRiderAccount)
+    .put("/update-customer-account/:cid",updateCustomerAccount)
     .put("/assign-rider/:oid",assignRider)
 module.exports = router 

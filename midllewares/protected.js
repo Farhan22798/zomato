@@ -1,8 +1,9 @@
 const asyncHandler = require("express-async-handler")
 const jwt = require("jsonwebtoken")
+const Rider = require("../models/Rider")
 
 exports.restaurantProtected = asyncHandler(async (req, res, next) => {
-    
+
     const token = req.cookies.restaurant
     if (!token) {
         return res.status(401).json({ message: "no cookie found" })
@@ -52,10 +53,14 @@ exports.riderProtected = asyncHandler(async (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: "no cookie found" })
     }
-    jwt.verify(token, process.env.JWT_KEY, (err, decode) => {
+    jwt.verify(token, process.env.JWT_KEY, async (err, decode) => {
         if (err) {
             console.log(err)
             return res.status(401).json({ message: "invalid token" })
+        }
+        const result = await Rider.findById(decode._id)
+        if (!result.isActive) {
+            return res.status(401).json({ message: "Account is blocked by Admin" })
         }
         req.user = decode._id
         next()
