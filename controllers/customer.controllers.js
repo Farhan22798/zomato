@@ -58,7 +58,7 @@ exports.getRestaurants = asyncHandler(async (req, res) => {
 
 exports.getRestaurantMenu = asyncHandler(async (req, res) => {
     const result = await Menu.find({ restaurant: req.params.rid }).select((" -createdAt -updatedAt -__v"))
-    res.json({ message: "restaurant menu fetch success",result })
+    res.json({ message: "restaurant menu fetch success", result })
 })
 
 
@@ -77,22 +77,22 @@ exports.placeOrder = asyncHandler(async (req, res) => {
 exports.getOrders = asyncHandler(async (req, res) => {
 
     const result = await Order
-        .find({ customer: req.user }).select("-customer -createdAt -updatedAt -__v")
-        .populate("restaurant","restaurantName hero")
-        .populate("rider","name mobile")
-        .populate("items.dish","name type image price")
-        .sort({createdAt : -1})
+        .find({ customer: req.user, status: { $ne: "Delivered" } }).select("-customer -createdAt -updatedAt -__v")
+        .populate("restaurant", "restaurantName hero")
+        .populate("rider", "name mobile")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
     res.json({ message: "order fetch success", result })
 })
 
 exports.getOrdersHistory = asyncHandler(async (req, res) => {
 
     const result = await Order
-        .find({ customer: req.user,status:"Delivered" }).select(" -createdAt -updatedAt -__v")
-        .populate("restaurant","restaurantName hero")
-        .populate("rider","name mobile")
-        .populate("items.dish","name type image price")
-        .sort({createdAt : -1})
+        .find({ customer: req.user, status: "Delivered" }).select(" -createdAt -updatedAt -__v")
+        .populate("restaurant", "restaurantName hero")
+        .populate("rider", "name mobile")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
     res.json({ message: "order history fetch success", result })
 })
 
