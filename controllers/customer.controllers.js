@@ -88,7 +88,7 @@ exports.getOrders = asyncHandler(async (req, res) => {
 exports.getOrdersHistory = asyncHandler(async (req, res) => {
 
     const result = await Order
-        .find({ customer: req.user,status:"delivered" }).select(" -createdAt -updatedAt -__v")
+        .find({ customer: req.user,status:"Delivered" }).select(" -createdAt -updatedAt -__v")
         .populate("restaurant","restaurantName hero")
         .populate("rider","name mobile")
         .populate("items.dish","name type image price")
